@@ -43,7 +43,7 @@ if(isset($_POST['tambahproduk'])){
 }
 
 if(isset($_POST['tambahpelanggan'])){
-    //deskripsi initial variabel
+    //deskripsi initial data pelanggan
     $nama_pelanggan = $_POST['nama_pelanggan'];
     $notelp = $_POST['notelp'];
     $alamat = $_POST['alamat'];
@@ -63,7 +63,9 @@ if(isset($_POST['tambahpelanggan'])){
 }
 
 if(isset($_POST['tambahpesanan'])){
-    //deskripsi initial variabel
+    //delete pesanan
+ 
+    //deskripsi initial data pealnggan
     $id_pelanggan = $_POST['id_pelanggan'];
 
     $insert_pesanan = mysqli_query($koneksi, "INSERT INTO pesanan (id_pelanggan) VALUES 
@@ -113,7 +115,7 @@ if(isset($_POST['addproduk'])){
     $hitung2 = mysqli_fetch_array($hitung1);
     $stocksekarang = $hitung2['stock'];
 
-    if($stocksekarang>=$qty){
+    if($stocksekarang>=qty){
     //kurangin stocknya dengan jumlah yang akan dikeluarkan
     $selisih = $stocksekarang - $qty;
 

@@ -1,8 +1,14 @@
 <?php
 require 'ceklogin.php';
-$barang = mysqli_query($koneksi, "SELECT * from produk");
 
-$h2 = mysqli_num_rows($barang);
+if(isset($_GET['idp'])){
+    $idp = $_GET['idp'];
+    $ambilnamapelanggan = mysqli_query($koneksi, "SELECT * FROM pesanan p, pelanggan pl where p.id_pelanggan=pl.id_pelanggan and p.id_pesanan='$idp'");
+    $np = mysqli_fetch_array($ambilnamapelanggan);
+    $namapel = $np['nama_pelanggan'];
+} else {
+    header('location:index.php');
+}
 ?>
 
 <!DOCTYPE html>
@@ -64,55 +70,61 @@ $h2 = mysqli_num_rows($barang);
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Stock Barang</h1>
-                        <ol class="breadcrumb mb-4">
-                        </ol>
+                        <h1 class="mt-4">Data Pesanan : <?= $idp; ?> </h1>
+                        <h1 class="mt-4">Nama Pelanggan : <?= $namapel; ?></h1> 
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                  <div class="card-body">Jumlah Barang : <?= $h2; ?></div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#myModal">
-                                        Tambah Barang
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                                        Tambah Pesanan
                                     </button>
                                     <div class="container mt-3">
                                     </div>
-                                </div>
                             </div>
-                        </div>
-                            
+
                         <div class="card mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Data Stock Barang
+                                Data Pesanan
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>No</th>
+                                            <th>No</th>                                            
                                             <th>Nama Produk</th>
-                                            <th>Deskripsi</th>
-                                            <th>Harga</th>
-                                            <th>Stock</th>
-                                            <th>aksi</th>
-                                    </tr>
+                                            <th>Harga Satuan</th>
+                                            <th>Jumlah</th>
+                                            <th>Sub-Total</th>
+                                            <th>Aksi</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    <?php $i = 1; ?>
-                                    <?php foreach ($barang as $brg): ?>
+                                        <?php
+                                         $get = mysqli_query($koneksi, "SELECT * from detail_pesanan p, produk pr WHERE p.id_produk=pr.id_produk AND id_pesanan='$idp'");
 
+                                        //Inisialisasi untuk nomor karena error 
+                                        $i = 1;
+
+                                        while ($ap = mysqli_fetch_array($get)) {
+                                            $qty = $ap['qty'];
+                                            $harga = $ap['harga'];
+                                            $nama_produk = $ap['nama_produk'];
+                                            $subtotal = $qty * $harga;
+
+                                        ?>
                                         <tr>
-                                            <td><?= $i ?></td>
-                                            <td><?= $brg['nama_produk']; ?></td>
-                                            <td><?= $brg['deskripsi']; ?></td>
-                                            <td><?= $brg['harga']; ?></td>
-                                            <td><?= $brg['stock']; ?></td>
-                                            <td>edit delete</td>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= $nama_produk ?></td>                                            
+                                            <td>Rp.<?= number_format($harga); ?></td>
+                                            <td><?= number_format($qty); ?></td>
+                                            <td>Rp.<?= number_format($subtotal); ?></td>    
+                                            <td>Tampilkan |<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                                        delete
+                                    </button></td>
                                         </tr>
-                                        <?php $i++; ?>
-                                        <?php endforeach ?>
+                                        <?php 
+                                            }; 
+                                        ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -138,31 +150,49 @@ $h2 = mysqli_num_rows($barang);
     </body>
     <!-- Modal -->
 <div class="modal" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Data Pesanan</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="POST">
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <input type="text" name="nama_produk" class="form-control mt-3" placeholder="nama produk">
-                    <input type="text" name="deskripsi" class="form-control mt-3" placeholder="deskripsi produk">
-                    <input type="num" name="harga" class="form-control mt-3" placeholder="harga">
-                    <input type="num" name="stock" class="form-control mt-3" placeholder="stock">
-                </div>
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Tambah Data Pesanan</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form method="POST">
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" name="tambahproduk">Simpan</button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </form>
+      <!-- Modal body -->
+      <div class="modal-body">
+        Pilih Barang
+        <select name="id_produk" class="form-control mt-3">
 
-        </div>
+        <?php
+        $getproduk = mysqli_query($koneksi, "SELECT * FROM produk WHERE id_produk NOT IN(SELECT id_produk FROM detail_pesanan WHERE id_pesanan='$idp')");
+
+        while ($pr = mysqli_fetch_array($getproduk)){
+            $id_produk = $pr['id_produk'];
+            $nama_produk = $pr['nama_produk'];
+            $stock = $pr['stock'];
+            $deskripsi = $pr['deskripsi'];
+
+        ?>
+        <option value="<?=$id_produk;?>"> <?= $nama_produk; ?> - <?= $deskripsi; ?> - (Stock : 
+        <?= $stock; ?>)</option>
+
+        <?php
+        }
+        ?>
+        </select>
+        <input type="number" name="qty" class="form-control mt-3" placeholder="quantity" min="1" required>
+        <input type="hidden" name="idp" value="<?= $idp; ?>">
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success" name="addproduk">Simpan</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+      </div>
+      </form>
     </div>
+  </div>
 </div>
 </html>

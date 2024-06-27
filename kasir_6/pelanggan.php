@@ -102,7 +102,7 @@ $h2 = mysqli_num_rows($pelanggan);
                                             <td><?= $pl['nama_pelanggan']; ?></td>
                                             <td><?= $pl['notelp']; ?></td>
                                             <td><?= $pl['alamat']; ?></td>
-                                            <td></td>
+                                            <td>edit | delete</td>
                                         </tr>
                                         <?php $i++; ?>
                                         <?php endforeach; ?>

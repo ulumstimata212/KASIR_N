@@ -43,7 +43,7 @@ if(isset($_POST['tambahproduk'])){
 }
 
 if(isset($_POST['tambahpelanggan'])){
-    //deskripsi initial data pelanggan
+    //deskripsi initial variabel
     $nama_pelanggan = $_POST['nama_pelanggan'];
     $notelp = $_POST['notelp'];
     $alamat = $_POST['alamat'];
@@ -63,9 +63,7 @@ if(isset($_POST['tambahpelanggan'])){
 }
 
 if(isset($_POST['tambahpesanan'])){
-    //delete pesanan
- 
-    //deskripsi initial data pealnggan
+    //deskripsi initial variabel
     $id_pelanggan = $_POST['id_pelanggan'];
 
     $insert_pesanan = mysqli_query($koneksi, "INSERT INTO pesanan (id_pelanggan) VALUES 
@@ -115,7 +113,7 @@ if(isset($_POST['addproduk'])){
     $hitung2 = mysqli_fetch_array($hitung1);
     $stocksekarang = $hitung2['stock'];
 
-    if($stocksekarang>=qty){
+    if($stocksekarang>=$qty){
     //kurangin stocknya dengan jumlah yang akan dikeluarkan
     $selisih = $stocksekarang - $qty;
 
@@ -140,5 +138,26 @@ if(isset($_POST['addproduk'])){
         window.location.href="view.php' . $idp .'"
         </script>';
     }
+
+}
+// Tambah barang masuk
+if (isset($_POST['barangmasuk'])){
+    $id_produk = $_POST['id_produk'];
+    $qty = $_POST['qty'];
+
+    $insertbar = mysqli_query($koneksi,"INSERT INTO masuk (id_produk,qty) VALUES ('$id_produk','$qty')");
+
+    if($insertbar){
+        header('location:masuk.php');
+
+    }else{
+        echo '
+        <script>
+        alert("Gagal")
+        window.location.href="masuk.php"
+        </script>';
+    } 
+
+
 
 }

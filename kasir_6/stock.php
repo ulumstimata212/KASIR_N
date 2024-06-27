@@ -1,7 +1,6 @@
 <?php
 require 'ceklogin.php';
 $barang = mysqli_query($koneksi, "SELECT * from produk");
-
 $h2 = mysqli_num_rows($barang);
 ?>
 
@@ -96,7 +95,8 @@ $h2 = mysqli_num_rows($barang);
                                             <th>Deskripsi</th>
                                             <th>Harga</th>
                                             <th>Stock</th>
-                                        </tr>
+                                            <th>aksi</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
                                     <?php $i = 1; ?>
@@ -108,6 +108,7 @@ $h2 = mysqli_num_rows($barang);
                                             <td><?= $brg['deskripsi']; ?></td>
                                             <td><?= $brg['harga']; ?></td>
                                             <td><?= $brg['stock']; ?></td>
+                                            <td>edit|delete</td>
                                         </tr>
                                         <?php $i++; ?>
                                         <?php endforeach ?>

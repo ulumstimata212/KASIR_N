@@ -118,9 +118,7 @@ if(isset($_GET['idp'])){
                                             <td>Rp.<?= number_format($harga); ?></td>
                                             <td><?= number_format($qty); ?></td>
                                             <td>Rp.<?= number_format($subtotal); ?></td>    
-                                            <td>Tampilkan |<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                        delete
-                                    </button></td>
+                                            <td>Tampilkan | Delete</td>
                                         </tr>
                                         <?php 
                                             }; 

@@ -1,10 +1,11 @@
 <?php
 require 'ceklogin.php';
+
 // hitung jumlah
 $h1 = mysqli_query($koneksi, "SELECT * FROM pesanan");
 $h2 = mysqli_num_rows($h1);
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -21,9 +22,10 @@ $h2 = mysqli_num_rows($h1);
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="index.php">APLIKASI KASIR</a>
+            <a class="navbar-brand ps-3" href="index.php">Start Bootstrap</a>
             <!-- Sidebar Toggle-->
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -32,31 +34,25 @@ $h2 = mysqli_num_rows($h1);
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Menu</div>
                             <a class="nav-link" href="index.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Order
                             </a>
                             <a class="nav-link" href="stock.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-clipboard"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Stock Barang
                             </a>
                             <a class="nav-link" href="masuk.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-folder"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Barang Masuk
                             </a>
                             <a class="nav-link" href="pelanggan.php">
-                                <div class="sb-nav-link-icon"><i class="far fa-address-card"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Kelola Pelanggan
                             </a>
                             <a class="nav-link" href="logout.php">
-                                <div class="sb-nav-link-icon"><i class="fas fa-sign-out-alt"></i></div>
+                                <div class="sb-nav-link-icon"><i class="fa fa-sign-out"></i></div>
                                 Logout
                             </a>
-                            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                    <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                                </nav>
-                            </div>
                         </div>
                     </div>
                 </nav>
@@ -65,32 +61,28 @@ $h2 = mysqli_num_rows($h1);
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">Data Pesanan</h1>
-                        <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Selamat Datang</li>
-                        </ol>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
-                                <div class="card bg-primary text-white mb-4">
-                                <div class="card-body">Jumlah Pesanan <?= $h2; ?></div>
-                                    </div>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                        Tambah Pesanan
-                                    </button>
-                                    <div class="container mt-3">
-                                    </div>
+                                <div class="card bg-primary text-white mb-2">
+                                    <div class="card-body">Jumlah Pesanan: <?= $h2;?> </div>
+                                </div>
+                                <div >
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                                    Tambah Pesanan
+                                </button>
                                 </div>
                             </div>
-
-                        <div class="card mb-4">
+                        </div>
+                        <div class="card mt-3 mb-4">
                             <div class="card-header">
                                 <i class="fas fa-table me-1"></i>
-                                Data Pelanggan
+                                Data Pesanan
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th>ID Pesanan</th>                                            
+                                            <th>ID Pesanan</th>
                                             <th>Tanggal Pesan</th>
                                             <th>Nama Pelanggan</th>
                                             <th>Alamat</th>
@@ -99,11 +91,9 @@ $h2 = mysqli_num_rows($h1);
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php
-                                        $getpesanan = mysqli_query(
-                                            $koneksi,
-                                            "SELECT * FROM pesanan p, pelanggan pl WHERE p.id_pelanggan=pl.id_pelanggan"
-                                        );
+                                    <?php
+                                        $getpesanan = mysqli_query($koneksi,
+                                        "SELECT * FROM pesanan p, pelanggan pl WHERE p.id_pelanggan=pl.id_pelanggan");
 
                                         while ($p = mysqli_fetch_array($getpesanan)) {
                                             $id_pesanan = $p['id_pesanan'];
@@ -116,11 +106,31 @@ $h2 = mysqli_num_rows($h1);
                                         <tr>
                                             <td><?= $id_pesanan ?></td>                                            
                                             <td><?= $tanggal; ?></td>
-                                            <td><?= $nama_pelanggan; ?> - <?= $alamat ?> </td>
-                                            <td><?= $id_pesanan ?></td>
-                                            <td>Jumlah</td>
-                                            <td><a href="view.php?idp= <?= $id_pesanan; ?>" class="btn btn-primary" target="_blank">Tampilkan</a> | Delete</td>
+                                            <td><?= $nama_pelanggan; ?></td>
+                                            <td><?= $alamat ?></td>
+                                            <td><?= $jumlah ?></td>
+                                            <td><a href="view.php?idp= <?= $id_pesanan; ?>" class="btn btn-primary" target="">Tampilkan</a> | <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $id_pesanan; ?>">Delete</button></td>
                                         </tr>
+                                        <div class="modal" id="delete<?= $id_pesanan; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Barang</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form method="POST">
+                                                        <div class="modal-body">
+                                                            Apakah Anda yakin menghapus barang ini?
+                                                            <input type="hidden" name="idp" value="<?= $id_pesanan; ?>">
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="submit" class="btn btn-success" name="hapuspesanan">Hapus</button>
+                                                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <?php 
                                             }; 
                                         ?>
@@ -133,7 +143,7 @@ $h2 = mysqli_num_rows($h1);
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; ulum 2024</div>
+                            <div class="text-muted">Copyright &copy; miftahul 2024</div>
                         </div>
                     </div>
                 </footer>
@@ -147,50 +157,46 @@ $h2 = mysqli_num_rows($h1);
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>
-    <!-- Modal -->
 <div class="modal" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
 
       <!-- Modal Header -->
       <div class="modal-header">
-        <h4 class="modal-title">Tambah Data Pelanggan</h4>
+        <h4 class="modal-title">Data Tambah Pesanan</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
-      <form method="POST">
-
+<form method="POST">
       <!-- Modal body -->
       <div class="modal-body">
         Pilih Pelanggan
-        <select name="id_pelanggan" class="form-control mt-3">
+        <select name="id_pelanggan" class="form-control">
 
         <?php
         $getpelanggan = mysqli_query($koneksi, "SELECT * FROM pelanggan");
 
-        while ($pl = mysqli_fetch_array($getpelanggan)){
+        while($pl = mysqli_fetch_array($getpelanggan)){
             $id_pelanggan = $pl['id_pelanggan'];
             $nama_pelanggan = $pl['nama_pelanggan'];
             $alamat = $pl['alamat'];
-
         ?>
-        <option value="<?=$id_pelanggan;?>"> <?= $nama_pelanggan; ?> - <?= $alamat; ?> </option>
-
-        <?php
+        <option value="<?=$id_pelanggan; ?>"> <?= $nama_pelanggan; ?> - <?= $alamat; ?></option>
+        <?php    
         }
+        
         ?>
         </select>
-        <!-- <input type="text" name="nama_pelanggan" class="form-control mt-3" placeholder="nama pelanggan">
-        <input type="text" name="notelp" class="form-control mt-3" placeholder="notelp">
-        <input type="num" name="alamat" class="form-control mt-3" placeholder="alamat"> -->
+        
       </div>
 
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="submit" class="btn btn-success" name="tambahpesanan">Simpan</button>
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Tutup</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
       </div>
-      </form>
+
     </div>
   </div>
 </div>
+</form>
 </html>
